@@ -1,500 +1,587 @@
 
-# Module 02: Git Installation and Setup
+# Module 03: Basic Git Commands
 
 ## 1. Learning Objectives
 
 After completing this module, you will be able to:
 
-- Install Git on Windows.
-- Verify the Git installation.
-- Understand Git Bash, PowerShell, and the VS Code terminal.
-- Configure your Git username and email.
-- Understand global and local Git configurations.
-- Verify your configuration.
-- Troubleshoot common installation problems.
+- Initialize a Git repository.
+- Check the status of files.
+- Stage changes for a commit.
+- Create commits with meaningful messages.
+- Inspect commit history.
+- Compare file changes.
+- Understand the working directory, staging area, and repository.
+- Complete a basic Git workflow independently.
 
 ---
 
-## 2. What Is Git Installation?
+## 2. Understanding the Git Workflow
 
-Git must be installed on your computer before you can use its commands in a terminal.
+Git tracks changes through three main areas.
 
-Once installed, you can use Git through:
+### 2.1 Working Directory
 
-- Visual Studio Code terminal
-- Windows PowerShell
-- Git Bash
-- Windows Command Prompt
+The working directory contains your project files. You create, edit, and delete files here.
 
-You do not need to install Git separately for each project.
+### 2.2 Staging Area
 
----
+The staging area contains changes selected for the next commit.
 
-## 3. Install Git on Windows
+The `git add` command stages changes.
 
-### Step 1: Open the Official Website
+### 2.3 Repository
 
-Visit:
+The repository stores committed snapshots and their history.
 
-https://git-scm.com/downloads
+The `git commit` command records the staged changes.
 
-### Step 2: Download Git
+### Basic Workflow
 
-Select Windows and download the appropriate installer.
+Working Directory → Staging Area → Local Repository
 
-### Step 3: Run the Installer
+Commands:
 
-Open the downloaded installer and follow the setup wizard.
-
-For a beginner, the default installation options are generally suitable. Review the PATH and terminal integration options carefully.
-
-### Step 4: Complete Installation
-
-Finish the installation process.
-
-### Step 5: Open a New Terminal
-
-Open PowerShell, Git Bash, or the VS Code terminal.
-
-If a terminal was already open during installation, close it and open a new one so it can detect the updated PATH.
+- `git add` — stages changes.
+- `git commit` — records staged changes.
 
 ---
 
-## 4. Verify Git Installation
+## 3. The `git init` Command
 
-Execute:
+### Definition
+
+The `git init` command initializes a new Git repository in the current directory.
+
+### Syntax
 
 ```bash
-git --version
+git init
 ```
 
-### Purpose
+### Example
 
-Displays the installed Git version.
+Create a new project directory and enter it:
 
-### Example Output
-
-```text
-git version 2.x.x
+```bash
+mkdir git-practice
+cd git-practice
+git init
 ```
 
-The exact version depends on your installation.
+Git creates the repository metadata required to track the project.
 
-### If the Command Is Not Recognized
+### Initialize with a Specific Branch Name
 
-1. Confirm that Git was installed successfully.
-2. Close and reopen the terminal.
-3. Check whether Git was added to PATH.
-4. Restart VS Code if necessary.
-5. Reinstall Git if the installation is incomplete.
+```bash
+git init -b main
+```
+
+This initializes a repository with `main` as its initial branch.
+
+### Important Notes
+
+- `git init` does not upload files to GitHub.
+- It does not automatically commit your files.
+- You can use it to start tracking an existing project.
+- Avoid initializing a new repository inside another repository unless you intentionally want a nested repository.
 
 ---
 
-## 5. Understanding Git Bash
+## 4. The `git status` Command
 
-Git Bash provides a Bash-compatible terminal environment on Windows, along with Git command-line tools.
+### Definition
 
-Example:
+The `git status` command displays the current state of your repository.
 
-```bash
-pwd
-ls
-mkdir demo-project
-cd demo-project
-```
-
-### Common Uses
-
-- Running Git commands.
-- Using Bash-style commands.
-- Following tutorials written for Linux or macOS terminals.
-- Running shell scripts compatible with Bash.
-
----
-
-## 6. Understanding PowerShell
-
-PowerShell is a command-line shell and scripting environment available on Windows.
-
-Example:
-
-```powershell
-Get-Location
-Get-ChildItem
-New-Item -ItemType Directory demo-project
-Set-Location demo-project
-```
-
-### Common Uses
-
-- Managing Windows files and folders.
-- Running Git commands.
-- Automating tasks.
-- Executing PowerShell scripts.
-
-Git commands such as `git status`, `git add`, and `git commit` work in both PowerShell and Git Bash.
-
-**Important:** Some file-management commands differ between shells. Make sure you use the correct syntax for your terminal.
-
----
-
-## 7. Using Git in VS Code
-
-### Step 1
-
-Open Visual Studio Code.
-
-### Step 2
-
-Open your project folder.
-
-### Step 3
-
-Select:
-
-Terminal → New Terminal
-
-### Step 4
-
-Check Git:
-
-```bash
-git --version
-```
-
-### Step 5
-
-Check your current directory:
-
-```bash
-git rev-parse --show-toplevel
-```
-
-The last command works only when the current directory is inside a Git repository.
-
-### Step 6
-
-Check the repository status:
+### Syntax
 
 ```bash
 git status
 ```
 
-If the directory is not yet a Git repository, initialize it with `git init` when appropriate.
+### It Helps You Identify
 
----
-
-## 8. Configure Your Git Username
-
-Git records author information in commits.
-
-Execute:
-
-```bash
-git config --global user.name "Your Name"
-```
-
-Replace `Your Name` with the name you want recorded as the commit author.
+- The current branch.
+- Changes that are not staged.
+- Changes that are staged.
+- Untracked files.
+- Whether the working tree is clean.
 
 ### Example
 
 ```bash
-git config --global user.name "Vimal"
+git status
 ```
 
-### Explanation
+If you create a new file, Git may report it under untracked files.
 
-- `git config` manages Git configuration.
-- `--global` applies the setting to your user account across repositories by default.
-- `user.name` specifies the commit author's name.
+After staging the file, Git reports it under changes to be committed.
+
+### Why Is It Important?
+
+Check `git status` frequently, especially before staging, committing, switching branches, or pushing.
 
 ---
 
-## 9. Configure Your Git Email
+## 5. The `git add` Command
 
-Execute:
+### Definition
+
+The `git add` command stages changes so they can be included in the next commit.
+
+### Stage One File
 
 ```bash
-git config --global user.email "you@example.com"
+git add README.md
 ```
 
-Replace the example email with your preferred commit author email.
+### Stage Multiple Files
+
+```bash
+git add README.md ROADMAP.md
+```
+
+### Stage All Changes in the Current Directory
+
+```bash
+git add .
+```
+
+This stages new files and changes under the current directory, subject to ignore rules.
+
+### Stage All Changes Across the Working Tree
+
+```bash
+git add -A
+```
+
+This stages additions, modifications, and deletions throughout the working tree.
+
+### Important Notes
+
+- `git add` does not create a commit.
+- `git add` does not upload files to GitHub.
+- Review the staged changes before committing.
+- If you edit a file again after staging it, you may need to stage it again to include the latest changes.
+
+---
+
+## 6. The `git commit` Command
+
+### Definition
+
+A commit records a snapshot of staged changes in the repository history.
+
+### Syntax
+
+```bash
+git commit -m "Commit message"
+```
 
 ### Example
 
 ```bash
-git config --global user.email "your-email@example.com"
+git commit -m "Add Git command examples"
 ```
 
-If you want your commits linked to your GitHub profile, use an email associated with your GitHub account or the private noreply email provided by GitHub.
+### What Makes a Good Commit Message?
 
-**Important:** This configures commit author information. It does not sign you in to GitHub or authenticate a push.
+A good commit message explains the change clearly.
+
+Examples:
+
+```text
+Add introduction to Git
+Explain repository initialization
+Fix installation instructions
+Add branching exercises
+Update Git command reference
+```
+
+Avoid unclear messages such as:
+
+```text
+update
+changes
+final
+test
+```
+
+### Important Notes
+
+- A commit normally includes staged changes.
+- A commit is created locally.
+- A commit does not automatically upload anything to GitHub.
+- Use `git push` to send commits to a remote repository.
 
 ---
 
-## 10. Verify Git Configuration
+## 7. The `git log` Command
 
-### Display Global Configuration
+### Definition
 
-```bash
-git config --global --list
-```
+The `git log` command displays commit history.
 
-### Display Effective Configuration
+### Display Full History
 
 ```bash
-git config --list
+git log
 ```
 
-The second command can display values from multiple configuration levels.
-
-### Check the Username
+### Display Compact History
 
 ```bash
-git config user.name
+git log --oneline
 ```
 
-### Check the Email
+### Display a Graph of Branch History
 
 ```bash
-git config user.email
+git log --oneline --graph --all
 ```
 
-Review the output to ensure the correct values are configured.
+### What Information Does Git Log Show?
+
+- Commit identifier.
+- Author information.
+- Date.
+- Commit message.
+
+### Why Is It Useful?
+
+It helps developers understand previous changes, identify commits, and investigate project history.
 
 ---
 
-## 11. Global vs Local Configuration
+## 8. The `git diff` Command
 
-### Global Configuration
+### Definition
 
-Applies to your user account across repositories unless overridden.
+The `git diff` command compares file contents and helps you understand changes.
 
-```bash
-git config --global user.name "Vimal"
-```
-
-### Local Configuration
-
-Applies to the current repository.
-
-First, move into the project directory and ensure it is a Git repository.
+### View Unstaged Changes
 
 ```bash
-git config --local user.name "Project Author"
-git config --local user.email "project@example.com"
+git diff
 ```
 
-Local values override global values for the corresponding settings in that repository.
+Shows changes in tracked files that have not been staged.
 
-### When Should You Use Each?
+### View Staged Changes
 
-- Global: When you normally use the same author identity for your projects.
-- Local: When a particular repository needs a different author identity.
+```bash
+git diff --staged
+```
+
+Shows the changes prepared for the next commit.
+
+### Compare Two Commits
+
+```bash
+git diff COMMIT_A COMMIT_B
+```
+
+Replace the placeholders with actual commit identifiers.
+
+### Understand the Output
+
+Lines beginning with `-` indicate removed content.
+
+Lines beginning with `+` indicate added content.
+
+Reviewing a diff helps you catch accidental edits before committing.
 
 ---
 
-## 12. Other Useful Configuration Commands
+## 9. Practical Example: First Git Repository
 
-### List Configuration with Its Source
+Follow these steps in a practice directory.
 
-```bash
-git config --list --show-origin
-```
-
-Shows configuration values and the files from which they were loaded.
-
-### Set the Default Initial Branch Name
+### Step 1: Create a Directory
 
 ```bash
-git config --global init.defaultBranch main
+mkdir git-first-project
+cd git-first-project
 ```
 
-New repositories initialized with `git init` will use `main` as their initial branch, unless another option overrides it.
-
-### Remove a Global Username Setting
+### Step 2: Initialize Git
 
 ```bash
-git config --global --unset user.name
+git init -b main
 ```
 
-Use this only when you intend to remove that setting.
+### Step 3: Create a File
 
-### Open Git Configuration in an Editor
+Create a file named `README.md` containing:
+
+```markdown
+# My First Git Project
+
+I am learning Git and GitHub.
+```
+
+### Step 4: Check Status
 
 ```bash
-git config --global --edit
+git status
 ```
 
-Opens the global configuration file in the configured editor.
+You should see the new file listed as untracked.
+
+### Step 5: Stage the File
+
+```bash
+git add README.md
+```
+
+### Step 6: Review Staged Changes
+
+```bash
+git diff --staged
+```
+
+### Step 7: Commit the File
+
+```bash
+git commit -m "Add initial project README"
+```
+
+### Step 8: Check Status Again
+
+```bash
+git status
+```
+
+If there are no remaining changes, Git should report that the working tree is clean.
+
+### Step 9: View Commit History
+
+```bash
+git log --oneline
+```
+
+You should see your new commit.
 
 ---
 
-## 13. Git Installation vs GitHub Authentication
+## 10. Making a Second Commit
 
-These are two separate tasks.
+### Step 1: Edit the README
 
-### Git Installation
+Add this line:
 
-Installs the Git software on your computer.
+```text
+This project helps me understand version control.
+```
 
-### Git Configuration
+### Step 2: Check Changes
 
-Sets options such as your commit author name and email.
+```bash
+git status
+git diff
+```
 
-### GitHub Authentication
+### Step 3: Stage the Change
 
-Verifies that you have permission to access a remote repository.
+```bash
+git add README.md
+```
 
-GitHub authentication can use browser-based sign-in through a credential manager, SSH keys, or other supported methods.
+### Step 4: Review the Staged Change
 
-For HTTPS Git operations, your regular GitHub account password is not accepted as a Git password.
+```bash
+git diff --staged
+```
+
+### Step 5: Commit
+
+```bash
+git commit -m "Expand project introduction"
+```
+
+### Step 6: Review History
+
+```bash
+git log --oneline
+```
+
+You should now see two commits.
 
 ---
 
-## 14. Common Errors and Solutions
+## 11. Common Beginner Mistakes
 
-### Error 1: git Is Not Recognized
+### Mistake 1: Forgetting to Stage Files
 
-**Possible cause:** Git is missing from PATH or the terminal has not refreshed its environment.
-
-**Solution:** Verify the installation, open a new terminal, and check PATH configuration.
-
-### Error 2: Author Identity Unknown
-
-**Possible cause:** Git username or email is not configured.
+**Problem:** You run `git commit`, but your new changes are not included.
 
 **Solution:**
 
 ```bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
+git status
+git add filename
+git commit -m "Describe the change"
 ```
 
-### Error 3: Permission Denied
+### Mistake 2: Expecting `git add` to Upload Files
 
-**Possible cause:** The account or authentication method does not have the required access.
+**Problem:** You stage files but cannot see them on GitHub.
 
-**Solution:** Check your authentication method and repository permissions.
+**Solution:** Commit the changes and push the relevant commits to the remote repository.
 
-### Error 4: Repository Not Found
+### Mistake 3: Committing the Wrong Changes
 
-**Possible causes:**
+**Problem:** Unwanted content is included in the next commit.
 
-- Incorrect repository URL.
-- Repository does not exist.
-- Repository is private and you lack access.
-
-**Solution:** Verify the remote URL and your access permissions.
-
-### Error 5: Wrong Author Email
-
-**Possible cause:** Git is using an incorrect configured email.
-
-**Solution:** Update the relevant global or local configuration. Remember that changing configuration affects future commits, not the author information already recorded in existing commits.
-
----
-
-## 15. Practical Exercises
-
-### Exercise 1: Verify Installation
-
-Run:
-
-```bash
-git --version
-```
-
-Record the version displayed.
-
-### Exercise 2: Configure Git
-
-Set your username and email.
-
-### Exercise 3: Verify Configuration
-
-Run:
-
-```bash
-git config --global --list
-```
-
-Confirm that your values are correct.
-
-### Exercise 4: Use VS Code Terminal
-
-Open your learning repository and run:
+**Solution:** Review:
 
 ```bash
 git status
-git rev-parse --show-toplevel
+git diff --staged
 ```
 
-Record the output of both commands.
+before committing.
 
-### Exercise 5: Understand Configuration Levels
+### Mistake 4: Running `git log` Before the First Commit
 
-Inside a test repository, configure a local username and compare it with the global username.
+**Problem:** Git reports that the current branch has no commits.
 
-```bash
-git config --global user.name
-git config --local user.name
-```
+**Solution:** Create the first commit before expecting normal commit history.
 
-The local command requires a Git repository with a local configuration.
+### Mistake 5: Assuming Git Tracks Every File Automatically
+
+**Problem:** New files are not included in commits.
+
+**Solution:** Stage the required files with `git add`. Also check whether ignore rules exclude them.
 
 ---
 
-## 16. Knowledge Check
+## 12. Practical Assignments
 
-1. Which command displays the installed Git version?
-   - A. `git check`
-   - B. `git --version`
-   - C. `git install`
-   - D. `git start`
+### Assignment 1: Repository Creation
 
-2. Which option configures Git settings for your user account?
-   - A. `--local`
-   - B. `--global`
-   - C. `--branch`
-   - D. `--remote`
+1. Create a directory called `student-profile`.
+2. Initialize a Git repository.
+3. Create a `README.md` file.
+4. Stage the file.
+5. Commit it.
+6. Verify the commit using `git log --oneline`.
 
-3. Which command displays global Git configuration?
-   - A. `git config --global --list`
-   - B. `git show files`
-   - C. `git branch --global`
-   - D. `git remote --list`
+### Assignment 2: Multiple Commits
 
-4. Does configuring `user.name` authenticate you to GitHub?
-   - A. Yes
-   - B. No
+1. Create a file called `skills.md`.
+2. Add three programming skills.
+3. Stage and commit the file.
+4. Add two more skills.
+5. Create another commit.
+6. Compare the commit history.
 
-5. Which terminal can run Git commands on Windows?
-   - A. PowerShell
-   - B. Git Bash
-   - C. VS Code terminal
-   - D. All of the above
+### Assignment 3: Change Inspection
+
+1. Create a text file.
+2. Commit it.
+3. Modify the file.
+4. Run `git diff`.
+5. Stage the change.
+6. Run `git diff --staged`.
+7. Commit the change.
+
+### Assignment 4: Repository Investigation
+
+Answer the following:
+
+1. What is the difference between `git add` and `git commit`?
+2. What does `git status` display?
+3. Why should you review `git diff --staged`?
+4. What is a clean working tree?
+5. Does a commit automatically upload code to GitHub?
+
+---
+
+## 13. Knowledge Check
+
+### Question 1
+
+Which command initializes a Git repository?
+
+A. `git start`
+
+B. `git init`
+
+C. `git create`
+
+D. `git new`
+
+### Question 2
+
+Which command stages a file?
+
+A. `git push`
+
+B. `git log`
+
+C. `git add`
+
+D. `git commit`
+
+### Question 3
+
+Which command creates a commit?
+
+A. `git commit`
+
+B. `git status`
+
+C. `git branch`
+
+D. `git diff`
+
+### Question 4
+
+Which command displays a compact commit history?
+
+A. `git status`
+
+B. `git log --oneline`
+
+C. `git init`
+
+D. `git add`
+
+### Question 5
+
+Which command displays staged changes?
+
+A. `git diff`
+
+B. `git diff --staged`
+
+C. `git status --branch`
+
+D. `git init`
 
 ### Answers
 
-1. B — `git --version`
-2. B — `--global`
-3. A — `git config --global --list`
-4. B — No
-5. D — All of the above
+1. B — `git init`
+2. C — `git add`
+3. A — `git commit`
+4. B — `git log --oneline`
+5. B — `git diff --staged`
 
 ---
 
-## 17. Module Summary
+## 14. Module Summary
 
 In this module, you learned:
 
-- How to install and verify Git.
-- How to use Git through VS Code.
-- The differences between Git Bash and PowerShell.
-- How to configure your username and email.
-- Global and local Git settings.
-- How to diagnose common installation and configuration errors.
-- Why Git configuration and GitHub authentication are different.
+- How to initialize a repository.
+- How to check repository status.
+- How to stage files.
+- How to create commits.
+- How to inspect commit history.
+- How to compare changes.
+- How to complete a basic Git workflow.
+- How to identify common beginner mistakes.
 
-**Next Module:** Basic Git Commands — initializing repositories, tracking files, staging changes, committing snapshots, and inspecting history.
+**Next Module:** GitHub and Remote Repositories — creating a GitHub repository, connecting local Git to GitHub, and using `git push`, `git pull`, `git fetch`, and `git clone`.
